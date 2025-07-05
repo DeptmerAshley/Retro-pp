@@ -6,6 +6,7 @@
 struct Theme {
     Color backgroundColor;
     Color snakeFood;
+    Color snakeBody;
 };
 
 #endif

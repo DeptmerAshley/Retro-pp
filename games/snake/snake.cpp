@@ -11,6 +11,7 @@ void Snake::update() {
 void Snake::render() {
     ClearBackground(theme.backgroundColor);
     food.Draw(theme.snakeFood);
+    snakeBody.Draw(cellSize, theme);
 }
 
 // Food class
@@ -22,7 +23,8 @@ void Snake::Food::Respawn() {
 }
 
 void Snake::Food::Draw(Color color) const {
-    DrawRectangleV(position, {(float)size, (float)size}, color);
+    //DrawRectangleV(position, {(float)size, (float)size}, color);
+    DrawTextureV(texture, position, WHITE);
 }
 
 Vector2 Snake::Food::getPosition() const {
@@ -32,3 +34,18 @@ Vector2 Snake::Food::getPosition() const {
 int Snake::Food::getSize() const {
     return size;
 }
+
+// SnakeBody class
+
+void Snake::SnakeBody::Draw(int cellSize, const Theme& theme) {
+    for(const Vector2& segment : body) {
+        Rectangle seg = {
+            segment.x * cellSize,
+            segment.y * cellSize,
+            (float)cellSize,
+            (float)cellSize
+        };
+        DrawRectangleRounded(seg, 0.5f, 6, theme.snakeBody);
+    }
+}
+
