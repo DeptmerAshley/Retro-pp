@@ -3,9 +3,11 @@
 
 #include <raylib.h>
 #include "common/game.h"
+#include <cstdlib>
 
 class Snake : public Game {
  public:
+
     Snake(const Theme& theme);
 
     int cellSize = 30;
@@ -16,20 +18,28 @@ class Snake : public Game {
     void render() override;
 
  private:
+
     class Food {
      public:
-        Food(int size, int screenWidth, int screenHeight)
-    }
+        Food(int size, int screenWidth, int screenHeight) :
+            size(size), screenWidth(screenWidth), screenHeight(screenHeight) {
+                Respawn();
+        }
+
+        void Respawn();
+        void Draw(Color color) const;
+        Vector2 getPosition() const;
+        int getSize() const;
+
+     private:
+        Vector2 position;
+        int size;
+        int screenWidth, screenHeight;
+    };
+
+    Food food;
 
 };
 
-class Food {
- public:
-    Vector2 position = {5, 6};
-
-    void Draw() {
-        DrawRectangle(position.x * Snake->cellSize, position.y * cellSize, cellSize, cellSize, {255, 8, 0, 255});
-    }
-};
 
 #endif
