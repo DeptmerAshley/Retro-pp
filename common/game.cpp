@@ -1,9 +1,7 @@
 #include "game.h"
 #include "raylib.h"
 
-Color mapBack = {17,124,19,255};
-
-Game::Game() {
+Game::Game(const Theme& selectedTheme) : theme(selectedTheme) {
     InitWindow(800, 600, "Snake Game");
     SetTargetFPS(120);
 }
@@ -15,7 +13,7 @@ Game::~Game() {
 void Game::run() {
     while (!WindowShouldClose()) {
         BeginDrawing();
-        ClearBackground(mapBack);
+        ClearBackground(theme.backgroundColor);
         //DrawText("Welcome to the Snake Engine!", 250, 280, 20, DARKGRAY);
         EndDrawing();
     }
