@@ -2,8 +2,9 @@
 #include "raylib.h"
 
 Game::Game(const Theme& selectedTheme) : theme(selectedTheme) {
-    InitWindow(800, 600, "Snake Game");
+    InitWindow(cellSize*cellCount, cellSize*cellCount, "Snake Game");
     SetTargetFPS(120);
+
 }
 
 Game::~Game() {
@@ -12,8 +13,10 @@ Game::~Game() {
 
 void Game::run() {
     while (!WindowShouldClose()) {
+        update();
         BeginDrawing();
         ClearBackground(theme.backgroundColor);
+        render();
         //DrawText("Welcome to the Snake Engine!", 250, 280, 20, DARKGRAY);
         EndDrawing();
     }

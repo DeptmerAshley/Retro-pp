@@ -6,11 +6,16 @@
 class Game {
 public:
     Game(const Theme& theme);
-    ~Game();
+    virtual ~Game();
     void run();
 
-private:
+    int cellSize = 30;
+    int cellCount = 25;
+
+protected:
     Theme theme;
+    virtual void update() = 0;
+    virtual void render() = 0;
 };
 
 #endif
