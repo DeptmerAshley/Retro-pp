@@ -5,6 +5,7 @@
 #include "common/game.h"
 #include <cstdlib>
 #include <deque>
+#include <raymath.h>
 
 class Snake : public Game {
  public:

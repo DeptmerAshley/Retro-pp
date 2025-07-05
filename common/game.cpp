@@ -13,8 +13,8 @@ Game::~Game() {
 
 void Game::run() {
     while (!WindowShouldClose()) {
-        update();
         BeginDrawing();
+        update();
         ClearBackground(theme.backgroundColor);
         render();
         //DrawText("Welcome to the Snake Engine!", 250, 280, 20, DARKGRAY);

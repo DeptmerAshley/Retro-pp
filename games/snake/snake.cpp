@@ -1,5 +1,5 @@
 #include "snake.h"
-#include <raylib.h>
+#include <raymath.h>
 
 Snake::Snake(const Theme& theme) :
     Game(theme), food(30, 750, 750) {}
@@ -49,3 +49,7 @@ void Snake::SnakeBody::Draw(int cellSize, const Theme& theme) {
     }
 }
 
+void Snake::SnakeBody::update() {
+    body.pop_back();
+    body.push_front(Vector2Add(body[0], direction));
+}
