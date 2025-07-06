@@ -1,12 +1,33 @@
 #include "snake.h"
+#include <raylib.h>
 #include <raymath.h>
 
 Snake::Snake(const Theme& theme) :
     Game(theme), food(30, 750, 750) {}
 
 void Snake::update() {
-    return;
+    moveTimer += GetFrameTime();
+
+    if (moveTimer >= moveDelay) {
+        moveTimer = 0.0f;
+        if (IsKeyPressed(KEY_UP) && snakeBody.direction.y != 1) {
+            snakeBody.direction = {0, -1};
+        }
+        else if (IsKeyPressed(KEY_DOWN) && snakeBody.direction.y != -1) {
+            snakeBody.direction = {0, 1};
+        }
+        else if (IsKeyPressed(KEY_LEFT) && snakeBody.direction.x != 1) {
+            snakeBody.direction = {-1, 0};
+        }
+        else if (IsKeyPressed(KEY_RIGHT) && snakeBody.direction.x != -1) {
+            snakeBody.direction = {1, 0};
+        }
+    }
+
+
+    snakeBody.update();
 }
+
 
 void Snake::render() {
     ClearBackground(theme.backgroundColor);
@@ -50,6 +71,7 @@ void Snake::SnakeBody::Draw(int cellSize, const Theme& theme) {
 }
 
 void Snake::SnakeBody::update() {
+    Vector2 newHead = Vector2Add(body.front(), direction);
+    body.push_front(newHead);
     body.pop_back();
-    body.push_front(Vector2Add(body[0], direction));
 }

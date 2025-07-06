@@ -7,6 +7,9 @@
 #include <deque>
 #include <raymath.h>
 
+float moveDelay = 1.0f;
+float moveTimer = 0.0f;
+
 class Snake : public Game {
  public:
 
