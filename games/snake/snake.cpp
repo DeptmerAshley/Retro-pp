@@ -3,7 +3,9 @@
 #include <raymath.h>
 
 Snake::Snake(const Theme& theme) :
-    Game(theme), food(30, 750, 750) {}
+    Game(theme), food(30, 750, 750) {
+        food.Respawn(snakeBody.body);
+    }
 
 void Snake::update() {
     this->moveTimer += GetFrameTime();
@@ -15,7 +17,7 @@ void Snake::update() {
 
         Vector2 foodPos = Vector2Divide(food.getPosition(), {(float)cellSize, (float)cellSize});
         if (Vector2Equals(snakeBody.snakeHead, foodPos)) {
-            food.Respawn();
+            food.Respawn(snakeBody.body);
             snakeBody.update(true);
         }
 
@@ -24,7 +26,11 @@ void Snake::update() {
                 CloseWindow();
             }
 
-        
+        for (auto i = snakeBody.body.begin() + 1; i != snakeBody.body.end(); i++) {
+            if (Vector2Equals(snakeBody.snakeHead, *i)) {
+                CloseWindow();
+            }
+        }
 
         if (IsKeyDown(KEY_UP) && snakeBody.direction.y != 1) {
             snakeBody.nextDirection = {0, -1};
@@ -51,19 +57,30 @@ void Snake::render() {
 
 // Food class
 
-void Snake::Food::Respawn() {
-    position.x = (float)(GetRandomValue(0, (screenWidth - size) / size) * size);
-    position.y = (float)(GetRandomValue(0, (screenHeight - size) / size) * size);
+void Snake::Food::Respawn(std::deque<Vector2> body) {
+    bool valid;
+    do {
+        position.x = (float)(GetRandomValue(0, (screenWidth / size) - 1));
+        position.y = (float)(GetRandomValue(0, (screenHeight / size) - 1));
 
+        valid = true;
+
+        for (auto i = body.begin(); i != body.end(); i++) {
+            if (Vector2Equals(position, *i)) {
+                valid = false;
+                break;
+            }
+        }
+    } while (!valid);
 }
 
 void Snake::Food::Draw(Color color) const {
     //DrawRectangleV(position, {(float)size, (float)size}, color);
-    DrawTextureV(texture, position, WHITE);
+    DrawTextureV(texture, Vector2Scale(position, (float)size), WHITE);
 }
 
 Vector2 Snake::Food::getPosition() const {
-    return position;
+    return Vector2Scale(position, (float)size);
 }
 
 int Snake::Food::getSize() const {

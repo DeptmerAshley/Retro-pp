@@ -31,10 +31,10 @@ class Snake : public Game {
                 Image image = LoadImage("assets/snakeApple.png");
                 texture = LoadTextureFromImage(image);
                 UnloadImage(image);
-                Respawn();
+                //Respawn(snakeBody.body);
         }
 
-        void Respawn();
+        void Respawn(std::deque<Vector2> body);
         void Draw(Color color) const;
         Vector2 getPosition() const;
         int getSize() const;
@@ -50,8 +50,6 @@ class Snake : public Game {
         }
     };
 
-    Food food;
-
     class SnakeBody {
     public:
         std::deque<Vector2> body = {Vector2{6,9}, Vector2{5,9}, Vector2{4,9} };
@@ -63,6 +61,8 @@ class Snake : public Game {
     };
 
     SnakeBody snakeBody;
+    Food food;
+
 };
 
 
