@@ -6,26 +6,27 @@ Snake::Snake(const Theme& theme) :
     Game(theme), food(30, 750, 750) {}
 
 void Snake::update() {
-    moveTimer += GetFrameTime();
+    this->moveTimer += GetFrameTime();
 
-    if (moveTimer >= moveDelay) {
-        moveTimer = 0.0f;
-        if (IsKeyPressed(KEY_UP) && snakeBody.direction.y != 1) {
-            snakeBody.direction = {0, -1};
+    if (this->moveTimer >= this->moveDelay) {
+        this->moveTimer = 0.0f;
+        snakeBody.direction = snakeBody.nextDirection;
+        snakeBody.update();
+        
+        if (IsKeyDown(KEY_UP) && snakeBody.direction.y != 1) {
+            snakeBody.nextDirection = {0, -1};
         }
-        else if (IsKeyPressed(KEY_DOWN) && snakeBody.direction.y != -1) {
-            snakeBody.direction = {0, 1};
+        if (IsKeyDown(KEY_DOWN) && snakeBody.direction.y != -1) {
+            snakeBody.nextDirection = {0, 1};
         }
-        else if (IsKeyPressed(KEY_LEFT) && snakeBody.direction.x != 1) {
-            snakeBody.direction = {-1, 0};
+        if (IsKeyDown(KEY_LEFT) && snakeBody.direction.x != 1) {
+            snakeBody.nextDirection = {-1, 0};
         }
-        else if (IsKeyPressed(KEY_RIGHT) && snakeBody.direction.x != -1) {
-            snakeBody.direction = {1, 0};
+        if (IsKeyDown(KEY_RIGHT) && snakeBody.direction.x != -1) {
+            snakeBody.nextDirection = {1, 0};
         }
+
     }
-
-
-    snakeBody.update();
 }
 
 

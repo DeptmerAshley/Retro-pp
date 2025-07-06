@@ -3,7 +3,7 @@
 
 Game::Game(const Theme& selectedTheme) : theme(selectedTheme) {
     InitWindow(cellSize*cellCount, cellSize*cellCount, "Snake Game");
-    SetTargetFPS(60);
+    SetTargetFPS(120);
 
 }
 

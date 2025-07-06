@@ -7,9 +7,6 @@
 #include <deque>
 #include <raymath.h>
 
-float moveDelay = 1.0f;
-float moveTimer = 0.0f;
-
 class Snake : public Game {
  public:
 
@@ -23,6 +20,9 @@ class Snake : public Game {
     void render() override;
 
  private:
+
+    float moveDelay = 0.1f;
+    float moveTimer = 0.0f; 
 
     class Food {
      public:
@@ -56,6 +56,7 @@ class Snake : public Game {
     public:
         std::deque<Vector2> body = {Vector2{6,9}, Vector2{5,9}, Vector2{4,9} };
         Vector2 direction = {1,0};
+        Vector2 nextDirection = {1, 0};
         void Draw(int cellSize, const Theme& theme);
         void update();
     };
