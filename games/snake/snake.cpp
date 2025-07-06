@@ -11,8 +11,21 @@ void Snake::update() {
     if (this->moveTimer >= this->moveDelay) {
         this->moveTimer = 0.0f;
         snakeBody.direction = snakeBody.nextDirection;
-        snakeBody.update();
+        snakeBody.update(false);
+
+        Vector2 foodPos = Vector2Divide(food.getPosition(), {(float)cellSize, (float)cellSize});
+        if (Vector2Equals(snakeBody.snakeHead, foodPos)) {
+            food.Respawn();
+            snakeBody.update(true);
+        }
+
+        if (snakeBody.snakeHead.x < 0 || snakeBody.snakeHead.y < 0 ||
+            snakeBody.snakeHead.x >= cellCount || snakeBody.snakeHead.y >= cellCount) {
+                CloseWindow();
+            }
+
         
+
         if (IsKeyDown(KEY_UP) && snakeBody.direction.y != 1) {
             snakeBody.nextDirection = {0, -1};
         }
@@ -68,11 +81,16 @@ void Snake::SnakeBody::Draw(int cellSize, const Theme& theme) {
             (float)cellSize
         };
         DrawRectangleRounded(seg, 0.5f, 6, theme.snakeBody);
+        snakeHead = body.front();
     }
 }
 
-void Snake::SnakeBody::update() {
+void Snake::SnakeBody::update(bool newSeg) {
     Vector2 newHead = Vector2Add(body.front(), direction);
     body.push_front(newHead);
-    body.pop_back();
+    if(newSeg == false)
+    {
+        body.pop_back();
+    }
+    snakeHead = newHead;
 }

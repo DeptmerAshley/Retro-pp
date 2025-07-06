@@ -58,7 +58,8 @@ class Snake : public Game {
         Vector2 direction = {1,0};
         Vector2 nextDirection = {1, 0};
         void Draw(int cellSize, const Theme& theme);
-        void update();
+        void update(bool newSeg);
+        Vector2 snakeHead;
     };
 
     SnakeBody snakeBody;
