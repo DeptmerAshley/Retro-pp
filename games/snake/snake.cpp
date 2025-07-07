@@ -99,6 +99,9 @@ void Snake::Draw() {
     const auto& segments = snakeBody.getBody();
     Vector2 direction = snakeBody.getDirection();
 
+    if (segments.empty())
+        return;
+
     // Get rotation based on direction
     float rotation = 0.0f;
     if (direction.x == 1) rotation = 0.0f;         // right
@@ -106,15 +109,12 @@ void Snake::Draw() {
     else if (direction.y == 1) rotation = 90.0f;   // down
     else if (direction.y == -1) rotation = 270.0f; // up
 
-    int cellSize = 20;
-    float offset = 40;
-
     // Draw body (excluding head)
     for (size_t i = 1; i < segments.size(); ++i) {
         Vector2 pos = segments[i];
         Rectangle dest = {
-            offset + pos.x * cellSize,
-            offset + pos.y * cellSize,
+            offset + pos.x * cellSize + cellSize / 2.0f,
+            offset + pos.y * cellSize + cellSize / 2.0f,
             (float)cellSize,
             (float)cellSize
         };
@@ -123,28 +123,28 @@ void Snake::Draw() {
             bodyTex,
             {0, 0, (float)bodyTex.width, (float)bodyTex.height},
             dest,
-            {0, 0},
+            {(float)cellSize / 2, (float)cellSize / 2},
             0.0f,
             WHITE
+        );
+    }
+
+    // Draw head (rotated)
+    Vector2 headPos = segments[0];
+    Rectangle headDest = {
+        offset + headPos.x * cellSize + cellSize / 2.0f,
+        offset + headPos.y * cellSize + cellSize / 2.0f,
+        (float)cellSize,
+        (float)cellSize
+    };
+
+    DrawTexturePro(
+        headTex,
+        {0, 0, (float)headTex.width, (float)headTex.height},
+        headDest,
+        {(float)cellSize / 2, (float)cellSize / 2},
+        rotation,
+        WHITE
     );
-}
-
-// Draw head (rotated)
-Vector2 headPos = segments[0];
-Rectangle headDest = {
-    offset + headPos.x * cellSize,
-    offset + headPos.y * cellSize,
-    (float)cellSize,
-    (float)cellSize
-};
-
-DrawTexturePro(
-    headTex,
-    {0, 0, (float)headTex.width, (float)headTex.height},
-    headDest,
-    {(float)cellSize / 2, (float)cellSize / 2},
-    rotation,
-    WHITE
-);
 
 }
