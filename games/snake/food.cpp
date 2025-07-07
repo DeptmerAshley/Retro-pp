@@ -4,8 +4,11 @@
 
 Food::Food(int size, int screenWidth, int screenHeight)
     : size(size), screenWidth(screenWidth), screenHeight(screenHeight) {
-    // Optional: load texture if you want, else use rectangle
-    // texture = LoadTexture("path/to/food.png");
+    texture = {0};
+}
+
+void Food::Load() {
+    texture = LoadTexture("assets/snakeApple.png");
 }
 
 void Food::Respawn(const std::deque<Vector2>& body) {
@@ -28,8 +31,7 @@ void Food::Draw(Color color) const {
         offset + position.x * size,
         offset + position.y * size
     };
-    DrawRectangleV(drawPos, { (float)size, (float)size }, color);
-    // Or: DrawTextureV(texture, drawPos, WHITE);
+    DrawTextureV(texture, drawPos, WHITE);
 }
 
 Vector2 Food::getPosition() const {

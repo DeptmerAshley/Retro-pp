@@ -9,6 +9,7 @@ class Food {
 public:
     Food(int size, int screenWidth, int screenHeight);
 
+    void Load();
     void Respawn(const std::deque<Vector2>& body);
     void Draw(Color color) const;
     Vector2 getPosition() const;
