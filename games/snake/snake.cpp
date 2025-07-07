@@ -1,6 +1,6 @@
 #include "snake.h"
-#include <raylib.h>
-#include <raymath.h>
+int offset = 50;
+int score = 0;
 
 Snake::Snake(const Theme& theme) :
     Game(theme), food(30, 750, 750) {
@@ -28,12 +28,13 @@ void Snake::update() {
             }
         }
 
-        Vector2 foodPos = Vector2Divide(food.getPosition(), {(float)cellSize, (float)cellSize});
+        //Vector2 foodPos = Vector2Divide(food.getPosition(), {(float)cellSize, (float)cellSize});
 
-        bool growing = Vector2Equals(nextHead, foodPos);
+        bool growing = Vector2Equals(nextHead, food.getPosition());
 
         if (growing) {
             food.Respawn(snakeBody.body);
+            score++;
         }
 
         snakeBody.update(growing);
@@ -81,12 +82,16 @@ void Snake::Food::Respawn(std::deque<Vector2> body) {
 }
 
 void Snake::Food::Draw(Color color) const {
-    //DrawRectangleV(position, {(float)size, (float)size}, color);
-    DrawTextureV(texture, Vector2Scale(position, (float)size), WHITE);
+    Vector2 drawPos = {
+        offset + position.x * size,
+        offset + position.y * size
+    };
+    DrawTextureV(texture, drawPos, WHITE);
 }
 
 Vector2 Snake::Food::getPosition() const {
-    return Vector2Scale(position, (float)size);
+    //return Vector2Scale(position, (float)size);
+    return position;
 }
 
 int Snake::Food::getSize() const {
@@ -98,8 +103,8 @@ int Snake::Food::getSize() const {
 void Snake::SnakeBody::Draw(int cellSize, const Theme& theme) {
     for(const Vector2& segment : body) {
         Rectangle seg = {
-            segment.x * cellSize,
-            segment.y * cellSize,
+            offset + segment.x * cellSize,
+            offset + segment.y * cellSize,
             (float)cellSize,
             (float)cellSize
         };

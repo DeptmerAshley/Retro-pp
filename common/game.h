@@ -3,6 +3,10 @@
 
 #include "theme.h"
 
+extern int offset;
+extern int score;
+
+
 class Game {
 public:
     Game(const Theme& theme);
@@ -11,7 +15,7 @@ public:
 
     int cellSize = 30;
     int cellCount = 25;
-
+    
 protected:
     Theme theme;
     virtual void update() = 0;
