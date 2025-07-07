@@ -1,10 +1,15 @@
+// game.cpp
 #include "game.h"
-#include "raylib.h"
+
+const int cellSize = 30;
+const int cellCount = 25;
+const int offset = 50;
 
 Game::Game(const Theme& selectedTheme) : theme(selectedTheme) {
-    InitWindow(2 * offset + cellSize*cellCount, 2* offset + cellSize*cellCount, "Snake Game");
+    InitWindow(2 * offset + cellSize * cellCount, 
+               2 * offset + cellSize * cellCount, 
+               "Snake Game");
     SetTargetFPS(120);
-
 }
 
 Game::~Game() {
@@ -12,14 +17,23 @@ Game::~Game() {
 }
 
 void Game::run() {
+    const float fixedTimeStep = 1.0f / 120.0f; // Logic updates 120 times/sec
+    float lag = 0.0f;
+    float previousTime = GetTime();
+
     while (!WindowShouldClose()) {
+        float currentTime = GetTime();
+        float deltaTime = currentTime - previousTime;
+        previousTime = currentTime;
+        lag += deltaTime;
+
+        while (lag >= fixedTimeStep) {
+            update(fixedTimeStep);
+            lag -= fixedTimeStep;
+        }
+
         BeginDrawing();
-        update();
         ClearBackground(theme.backgroundColor);
-        DrawRectangleLinesEx(Rectangle{(float)offset-5, (float)offset-5, (float)cellSize*cellCount+10,(float)cellSize*cellCount+10}, 5, WHITE);
-        DrawText("Snake++", offset, offset-40, 30, WHITE);
-        DrawText("Score: ", cellSize*cellCount-(offset+45), offset-40, 30, WHITE);
-        DrawText(TextFormat("%i", score), cellSize*cellCount-(offset-75), offset-40, 30, WHITE);
         render();
         EndDrawing();
     }

@@ -1,24 +1,26 @@
+// game.h
 #ifndef GAME_H
 #define GAME_H
 
+#include "raylib.h"
 #include "theme.h"
 
-extern int offset;
-extern int score;
-
+extern const int cellSize;
+extern const int cellCount;
+extern const int offset;
 
 class Game {
 public:
-    Game(const Theme& theme);
+    Game(const Theme& selectedTheme);
     virtual ~Game();
-    void run();
 
-    int cellSize = 30;
-    int cellCount = 25;
-    
+    void run(); // Main game loop
+
 protected:
     Theme theme;
-    virtual void update() = 0;
+
+    // Must be implemented by subclasses
+    virtual void update(float deltaTime) = 0;
     virtual void render() = 0;
 };
 
