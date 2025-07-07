@@ -13,24 +13,30 @@ void Snake::update() {
     if (this->moveTimer >= this->moveDelay) {
         this->moveTimer = 0.0f;
         snakeBody.direction = snakeBody.nextDirection;
-        snakeBody.update(false);
 
-        Vector2 foodPos = Vector2Divide(food.getPosition(), {(float)cellSize, (float)cellSize});
-        if (Vector2Equals(snakeBody.snakeHead, foodPos)) {
-            food.Respawn(snakeBody.body);
-            snakeBody.update(true);
+        Vector2 nextHead = Vector2Add(snakeBody.body.front(), snakeBody.direction);
+
+        if (nextHead.x < 0 || nextHead.y < 0 ||
+            nextHead.x >= cellCount || nextHead.y >= cellCount) 
+        {
+            CloseWindow();
         }
-
-        if (snakeBody.snakeHead.x < 0 || snakeBody.snakeHead.y < 0 ||
-            snakeBody.snakeHead.x >= cellCount || snakeBody.snakeHead.y >= cellCount) {
-                CloseWindow();
-            }
 
         for (auto i = snakeBody.body.begin() + 1; i != snakeBody.body.end(); i++) {
             if (Vector2Equals(snakeBody.snakeHead, *i)) {
                 CloseWindow();
             }
         }
+
+        Vector2 foodPos = Vector2Divide(food.getPosition(), {(float)cellSize, (float)cellSize});
+
+        bool growing = Vector2Equals(nextHead, foodPos);
+
+        if (growing) {
+            food.Respawn(snakeBody.body);
+        }
+
+        snakeBody.update(growing);
 
         if (IsKeyDown(KEY_UP) && snakeBody.direction.y != 1) {
             snakeBody.nextDirection = {0, -1};
