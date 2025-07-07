@@ -1,69 +1,31 @@
+// snake.h
 #ifndef SNAKE_H
 #define SNAKE_H
 
-#include <raylib.h>
-#include "common/game.h"
-#include <cstdlib>
-#include <deque>
-#include <raymath.h>
+#include "game.h"
+#include "food.h"       
+#include "snakebody.h"  
 
 class Snake : public Game {
- public:
-
+public:
     Snake(const Theme& theme);
 
-    int cellSize = 30;
-    int cellCount = 25;
-
- protected:
-    void update() override;
+    void update(float deltaTime) override;
     void render() override;
 
- private:
+    void setMoveDelay(float delay);
+    float getMoveDelay() const;
 
-    float moveDelay = 0.1f;
-    float moveTimer = 0.0f; 
-
-    class Food {
-     public:
-        Food(int size, int screenWidth, int screenHeight) :
-            size(size), screenWidth(screenWidth), screenHeight(screenHeight) {
-                Image image = LoadImage("assets/snakeApple.png");
-                texture = LoadTextureFromImage(image);
-                UnloadImage(image);
-                //Respawn(snakeBody.body);
-        }
-
-        void Respawn(std::deque<Vector2> body);
-        void Draw(Color color) const;
-        Vector2 getPosition() const;
-        int getSize() const;
-
-        Vector2 position;
-        int size;
-        int screenWidth, screenHeight;
-        Texture2D texture;
-
-        ~Food()
-        {
-            UnloadTexture(texture);
-        }
-    };
-
-    class SnakeBody {
-    public:
-        std::deque<Vector2> body = {Vector2{6,9}, Vector2{5,9}, Vector2{4,9} };
-        Vector2 direction = {1,0};
-        Vector2 nextDirection = {1, 0};
-        void Draw(int cellSize, const Theme& theme);
-        void update(bool newSeg);
-        Vector2 snakeHead;
-    };
-
+private:
     SnakeBody snakeBody;
     Food food;
 
-};
+    float moveTimer = 0.0f;
+    float moveDelay = 0.1f; // Speed: lower = faster
+    int score = 0;
 
+    void handleInput();
+    void checkCollisions();
+};
 
 #endif
