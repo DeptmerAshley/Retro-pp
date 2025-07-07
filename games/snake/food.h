@@ -8,6 +8,7 @@
 class Food {
 public:
     Food(int size, int screenWidth, int screenHeight);
+    ~Food();
 
     void Load();
     void Respawn(const std::deque<Vector2>& body);

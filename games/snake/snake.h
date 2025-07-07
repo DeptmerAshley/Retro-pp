@@ -9,12 +9,17 @@
 class Snake : public Game {
 public:
     Snake(const Theme& theme);
+    void Unload();
 
     void update(float deltaTime) override;
     void render() override;
 
     void setMoveDelay(float delay);
     float getMoveDelay() const;
+
+    Texture2D headTex;
+    Texture2D bodyTex;
+    float headRot = 0.0f;
 
 private:
     SnakeBody snakeBody;
@@ -26,6 +31,7 @@ private:
 
     void handleInput();
     void checkCollisions();
+    void Draw();
 };
 
 #endif

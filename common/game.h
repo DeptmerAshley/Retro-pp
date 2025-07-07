@@ -22,6 +22,8 @@ protected:
     // Must be implemented by subclasses
     virtual void update(float deltaTime) = 0;
     virtual void render() = 0;
+    virtual void Draw() = 0;
+    virtual void Unload() = 0;
 };
 
 #endif

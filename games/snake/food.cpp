@@ -41,3 +41,7 @@ Vector2 Food::getPosition() const {
 int Food::getSize() const {
     return size;
 }
+
+Food::~Food() {
+    UnloadTexture(texture);
+}

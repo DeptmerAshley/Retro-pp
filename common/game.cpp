@@ -34,7 +34,10 @@ void Game::run() {
 
         BeginDrawing();
         ClearBackground(theme.backgroundColor);
+        //Draw();
         render();
         EndDrawing();
     }
+
+    Unload();
 }

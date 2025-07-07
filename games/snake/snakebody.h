@@ -17,6 +17,9 @@ public:
     Vector2 direction;
     Vector2 nextDirection;
     Vector2 snakeHead;
+
+    const std::deque<Vector2>& getBody() const { return body;};
+    Vector2 getDirection() const {return direction;}
 };
 
 #endif
