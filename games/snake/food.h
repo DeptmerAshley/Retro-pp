@@ -10,11 +10,14 @@ public:
     Food(int size, int screenWidth, int screenHeight);
     ~Food();
 
+    Food(int size, int screenWidth, int screenHeight, int itemType);
+
     void Load();
     void Respawn(const std::deque<Vector2>& body);
     void Draw(Color color) const;
     Vector2 getPosition() const;
     int getSize() const;
+
 
 private:
     Vector2 position = {0, 0};

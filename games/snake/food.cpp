@@ -45,3 +45,9 @@ int Food::getSize() const {
 Food::~Food() {
     UnloadTexture(texture);
 }
+
+
+// STAR FOOD
+Food::Food(int size, int screenWidth, int screenHeight, int itemType) {
+
+}
