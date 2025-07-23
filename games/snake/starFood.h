@@ -1,15 +1,15 @@
-#ifndef FOOD_H
-#define FOOD_H
+#ifndef STARFOOD_H
+#define STARFOOD_H
 
 #include "item.h"
 
-class Food : public Item {
+class starFood : public Item {
 public:
-    Food(int size, int screenWidth, int screenHeight);
-    ~Food();
+    starFood(int size, int screenWidth, int screenHeight);
+    ~starFood();
 
     void Load() override;
-    void Respawn(const std::deque<Vector2>& body);
+    void Respawn(const std::deque<Vector2>& body, Vector2 foodPos);
     void Draw(Color color) const override;
     Vector2 getPosition() const override;
     int getSize() const override;

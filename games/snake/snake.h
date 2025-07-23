@@ -5,6 +5,7 @@
 #include "game.h"
 #include "food.h"       
 #include "snakebody.h"  
+#include "starFood.h"
 
 class Snake : public Game {
 public:
@@ -24,6 +25,7 @@ public:
 private:
     SnakeBody snakeBody;
     Food food;
+    starFood star;
 
     float moveTimer = 0.0f;
     float moveDelay = 0.1f; // Speed: lower = faster

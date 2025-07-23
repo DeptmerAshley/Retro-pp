@@ -1,11 +1,14 @@
 #include "snake.h"
 #include "raylib.h"
+#include "starFood.h"
 
 Snake::Snake(const Theme& theme)
     : Game(theme),
-      food(cellSize, cellCount * cellSize, cellCount * cellSize) {
+      food(cellSize, cellCount * cellSize, cellCount * cellSize),
+      star(cellSize, cellCount * cellSize, cellCount * cellSize) {
     food.Load();
     food.Respawn(snakeBody.body);
+    star.Respawn(snakeBody.body, food.getPosition());
     headTex = LoadTexture("assets/snakeHead.png");
     bodyTex = LoadTexture("assets/snakeBody.png");
 }
@@ -86,7 +89,7 @@ void Snake::render() {
     DrawText(TextFormat("%i", score), cellSize * cellCount - (offset - 75), offset - 40, 30, WHITE);
 
     food.Draw(theme.snakeFood);
-    // snakeBody.Draw(cellSize, theme);
+    star.Draw(theme.snakeFood);
     Draw();
 }
 
